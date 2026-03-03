@@ -1,3 +1,6 @@
+[warning disable other]
+[warning disable implicit-abs-deprecated]
+
 ; KOKIRI - let GRUB handle protected mode, we just set up long mode
 MB2_MAGIC    equ 0xE85250D6
 MB2_ARCH     equ 0
@@ -116,8 +119,8 @@ long_mode:
     mov ss, ax
 
     ; restore saved multiboot2 values
-    mov edi, [mb_magic]
-    mov esi, [mb_info]
+    mov edi, [rel mb_magic]
+    mov esi, [rel mb_info]
     call kernel_main
     cli
 .hang:

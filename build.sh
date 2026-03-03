@@ -2,7 +2,7 @@
 set -e
 echo "[KOKIRI] Building x86_64..."
 
-ASFLAGS="-f elf64"
+ASFLAGS="-f elf64 -w-other"
 OBJS="boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o kernel/vga.o kernel/gdt.o kernel/idt.o kernel/keyboard.o kernel/shell.o kernel/pmm.o kernel/kernel.o"
 
 nasm $ASFLAGS boot/boot.asm      -o boot/boot.o
