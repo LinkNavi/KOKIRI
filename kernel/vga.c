@@ -15,6 +15,13 @@ static void newline(void) { col = 0; if (++row == VGA_HEIGHT) row = 0; }
 void vga_putchar(char c) {
     if (c == '\n') { newline(); return; }
     if (c == '\r') { col = 0; return; }
+    if (c == '\b') {
+        if (col > 0) {
+            col--;
+            VGA_MEM[row*VGA_WIDTH + col] = entry(' ', color);
+        }
+        return;
+    }
     VGA_MEM[row*VGA_WIDTH + col] = entry(c, color);
     if (++col == VGA_WIDTH) newline();
 }

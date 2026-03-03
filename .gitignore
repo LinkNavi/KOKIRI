@@ -1,0 +1,6 @@
+*.o
+kernal.bin
+kokiri.iso
+boot/*.o
+kernel/*.o
+iso/boot/kernel.bin

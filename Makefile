@@ -1,7 +1,7 @@
 ifeq ($(OS),Windows_NT)
 	CC      = clang
 	LD      = ld.lld
-	CFLAGS  = --target=x86_64-elf -ffreestanding -fno-pic -mno-red-zone -mcmodel=kernel -O2 -Wall -Wextra -Iinclude
+	CFLAGS  = --target=x86_64-elf -ffreestanding -fno-stack-protector -fno-pic -mno-red-zone -mcmodel=kernel -O2 -Wall -Wextra -Iinclude
 	LDFLAGS = -m elf_x86_64 --script linker.ld
 else
 	CC      = gcc
@@ -13,7 +13,7 @@ endif
 ASFLAGS = -f elf64
 OBJS    = boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o \
           kernel/vga.o kernel/gdt.o kernel/idt.o kernel/keyboard.o \
-          kernel/shell.o kernel/kernel.o
+          kernel/shell.o kernel/pmm.o kernel/kernel.o
 
 kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
