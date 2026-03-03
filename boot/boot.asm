@@ -20,6 +20,8 @@ mb2_end:
 
 section .bss
 align 16
+mb_magic: resd 1
+mb_info:  resd 1
 stack_bottom:
     resb 32768
 stack_top:
@@ -48,6 +50,10 @@ extern kernel_main
 
 _start:
     mov esp, stack_top
+
+    ; save multiboot2 values before they get clobbered
+    mov [mb_magic], eax
+    mov [mb_info],  ebx
 
     ; clear page tables
     mov edi, pml4_table
@@ -109,10 +115,9 @@ long_mode:
     mov gs, ax
     mov ss, ax
 
-    ; multiboot2: ebx = info struct, eax = magic
-    ; zero-extend to 64-bit
-    mov edi, eax
-    mov esi, ebx
+    ; restore saved multiboot2 values
+    mov edi, [mb_magic]
+    mov esi, [mb_info]
     call kernel_main
     cli
 .hang:

@@ -6,8 +6,8 @@ ifeq ($(OS),Windows_NT)
 else
 	CC      = gcc
 	LD      = ld
-	CFLAGS  = -ffreestanding -fno-pic -mno-red-zone -mcmodel=kernel -O2 -Wall -Wextra -Iinclude
-	LDFLAGS = -m elf_x86_64 -T linker.ld
+CFLAGS = -ffreestanding -fno-pic -mno-red-zone -mcmodel=small -mno-sse -mno-sse2 -mno-mmx -O2 -Wall -Wextra -Iinclude
+LDFLAGS = -m elf_x86_64 -T linker.ld
 endif
 
 ASFLAGS = -f elf64

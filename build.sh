@@ -21,7 +21,7 @@ if [ "$OS" = "Windows_NT" ]; then
     clang $CF -c kernel/kernel.c   -o kernel/kernel.o
     ld.lld -m elf_x86_64 --script linker.ld -o kernel.bin $OBJS
 else
-    CF="-ffreestanding -fno-pic -mno-red-zone -mcmodel=kernel -fno-stack-protector -O2 -Iinclude"
+    CF="-ffreestanding -fno-pic -mno-red-zone -mcmodel=large -mno-sse -mno-sse2 -mno-mmx -fno-stack-protector -O2 -Iinclude"
     gcc $CF -c kernel/vga.c      -o kernel/vga.o
     gcc $CF -c kernel/gdt.c      -o kernel/gdt.o
     gcc $CF -c kernel/idt.c      -o kernel/idt.o

@@ -50,6 +50,7 @@ static void mark_used(uint64_t base, uint64_t len) {
 }
 
 void pmm_init(uint64_t mbi_addr) {
+vga_puts("[PMM] entering init\n");
     // start all reserved
     for (uint64_t i = 0; i < BITMAP_SIZE; i++) bitmap[i] = ~0ULL;
     free_pages = 0;
