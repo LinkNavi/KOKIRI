@@ -1,0 +1,42 @@
+
+
+**Phase 1 — Input **
+- PS/2 keyboard driver (IRQ1, already have the hook)
+- PS/2 mouse driver (IRQ12)
+
+**Phase 2 — Memory manager**
+- Physical memory manager (bitmap)
+- Virtual memory / paging
+- `kmalloc`/`kfree`
+- Without this nothing else works
+
+**Phase 3 — Syscalls + ELF**
+- Syscall handler (`syscall` instruction, not int 0x80)
+- ELF64 loader
+- Ring 3 / userspace
+- musl-compatible syscalls (this is a big list but doable)
+
+**Phase 4 — Filesystem**
+- VFS layer
+- initramfs to start
+- ext2 or FAT32
+
+**Phase 5 — GCC port**
+- Get musl libc compiling against your syscalls
+- Then GCC can target your OS
+- This unlocks building everything else natively
+
+**Phase 6 — Graphics**
+- GOP/UEFI framebuffer (better than VGA for modern GPUs)
+- TinyGL on top of framebuffer
+- Pick one GPU to target first — virtio-gpu for QEMU, then Intel or AMD
+
+**Phase 7 — Desktop + Browser**
+- Desktop environment (needs TinyGL + input drivers)
+- Browser last — realistically port NetSurf, writing one from scratch is a multi-year project alone
+
+**Phase 8 — Package manager**
+- Can be written in C against your own syscalls once GCC works
+- Design the package format before writing the tool
+
+
