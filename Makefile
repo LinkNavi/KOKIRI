@@ -12,7 +12,8 @@ endif
 
 ASFLAGS = -f elf64
 OBJS    = boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o \
-          kernel/vga.o kernel/gdt.o kernel/idt.o kernel/kernel.o
+          kernel/vga.o kernel/gdt.o kernel/idt.o kernel/keyboard.o \
+          kernel/shell.o kernel/kernel.o
 
 kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
@@ -24,7 +25,8 @@ kernel.bin: $(OBJS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 run: kernel.bin
-	qemu-system-x86_64 -kernel kernel.bin -display sdl
+	bash run.sh
 
 clean:
-	rm -f $(OBJS) kernel.bin
+	rm -f $(OBJS) kernel.bin kokiri.iso
+	rm -rf iso

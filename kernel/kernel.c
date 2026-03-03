@@ -1,6 +1,8 @@
 #include "../include/vga.h"
 #include "../include/gdt.h"
 #include "../include/idt.h"
+#include "../include/keyboard.h"
+#include "../include/shell.h"
 #include <stdint.h>
 
 void kernel_main(uint32_t magic, uint64_t mbi) {
@@ -11,7 +13,7 @@ void kernel_main(uint32_t magic, uint64_t mbi) {
     vga_set_color(VGA_WHITE, VGA_BLACK);
     gdt_init();
     idt_init();
-    vga_puts("Hey, Listen!\n");
+    keyboard_init();
     __asm__("sti");
-    for (;;) __asm__("hlt");
+    shell_run();
 }

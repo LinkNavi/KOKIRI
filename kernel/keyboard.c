@@ -65,6 +65,9 @@ static void keyboard_handler(regs_t *r) {
 }
 
 void keyboard_init(void) {
+while (inb(KEYBOARD_STATUS) & 0x01) inb(KEYBOARD_DATA);
+// enable keyboard
+outb(KEYBOARD_STATUS, 0xAE);
     irq_register(1, keyboard_handler);
     vga_puts("[KBD] Initialized\n");
 }
