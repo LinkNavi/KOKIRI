@@ -5,6 +5,7 @@
 #include "../include/shell.h"
 #include "../include/pmm.h"
 #include "../include/vmm.h"
+#include "../include/heap.h"
 #include <stdint.h>
 
 static void vga_putuint(uint64_t n) {
@@ -27,6 +28,7 @@ void kernel_main(uint32_t magic, uint64_t mbi) {
     vga_putuint(pmm_free_pages() * 4 / 1024);
     vga_puts(" MB\n");
     vmm_init();
+    heap_init();
     keyboard_init();
     __asm__("sti");
     shell_run();

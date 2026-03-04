@@ -13,7 +13,7 @@ endif
 ASFLAGS = -f elf64 -w-other
 OBJS    = boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o \
           kernel/vga.o kernel/gdt.o kernel/idt.o kernel/keyboard.o \
-          kernel/shell.o kernel/pmm.o kernel/vmm.o kernel/kernel.o
+          kernel/shell.o kernel/pmm.o kernel/vmm.o kernel/heap.o kernel/kernel.o
 
 kernel.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
