@@ -3,7 +3,7 @@ set -e
 echo "[KOKIRI] Building x86_64..."
 
 ASFLAGS="-f elf64 -w-other"
-OBJS="boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o kernel/vga.o kernel/gdt.o kernel/idt.o kernel/keyboard.o kernel/shell.o kernel/pmm.o kernel/kernel.o"
+OBJS="boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o kernel/vga.o kernel/gdt.o kernel/idt.o kernel/keyboard.o kernel/shell.o kernel/pmm.o kernel/vmm.o kernel/kernel.o"
 
 nasm $ASFLAGS boot/boot.asm      -o boot/boot.o
 nasm $ASFLAGS boot/gdt_flush.asm -o boot/gdt_flush.o
@@ -18,16 +18,18 @@ if [ "$OS" = "Windows_NT" ]; then
     clang $CF -c kernel/keyboard.c -o kernel/keyboard.o
     clang $CF -c kernel/shell.c    -o kernel/shell.o
     clang $CF -c kernel/pmm.c      -o kernel/pmm.o
+    clang $CF -c kernel/vmm.c      -o kernel/vmm.o
     clang $CF -c kernel/kernel.c   -o kernel/kernel.o
     ld.lld -m elf_x86_64 --script linker.ld -o kernel.bin $OBJS
 else
-    CF="-ffreestanding -fno-pic -mno-red-zone -mcmodel=large -mno-sse -mno-sse2 -mno-mmx -fno-stack-protector -O2 -Iinclude"
+    CF="-ffreestanding -fno-pic -fno-stack-protector -mno-red-zone -mcmodel=small -mno-sse -mno-sse2 -mno-mmx -O2 -Iinclude"
     gcc $CF -c kernel/vga.c      -o kernel/vga.o
     gcc $CF -c kernel/gdt.c      -o kernel/gdt.o
     gcc $CF -c kernel/idt.c      -o kernel/idt.o
     gcc $CF -c kernel/keyboard.c -o kernel/keyboard.o
     gcc $CF -c kernel/shell.c    -o kernel/shell.o
     gcc $CF -c kernel/pmm.c      -o kernel/pmm.o
+    gcc $CF -c kernel/vmm.c      -o kernel/vmm.o
     gcc $CF -c kernel/kernel.c   -o kernel/kernel.o
     ld -m elf_x86_64 -T linker.ld -o kernel.bin $OBJS
 fi
