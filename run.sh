@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+# set -e
 
 if [ ! -f kernel.bin ]; then
     echo "[KOKIRI] No kernel.bin, run build.sh first"

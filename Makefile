@@ -18,7 +18,7 @@ OBJS    = boot/boot.o boot/gdt_flush.o boot/idt_flush.o boot/isr.o \
           kernel/heap.o kernel/tss.o kernel/syscall.o kernel/elf.o \
           kernel/process.o kernel/vfs.o kernel/kernel.o
 
-kernel.bin: $(OBJS)
+kokori.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
 
 %.o: %.asm
